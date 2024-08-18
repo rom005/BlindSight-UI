@@ -9,12 +9,26 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: 'Poppins-Medium';
+  src: url('./assets/fonts/Poppins-Medium.ttf') format('truetype')
+}
+
+@font-face {
+  font-family: 'Poppins-Light';
+  src: url('./assets/fonts/Poppins-Light.ttf') format('truetype')
+}
+
+@font-face {
+  font-family: 'Poppins-Bold';
+  src: url('./assets/fonts/Poppins-Bold.ttf') format('truetype')
 }
 
 a {
@@ -27,11 +41,12 @@ a:hover {
 }
 
 body {
-  margin: 0;
+  overflow: hidden;
   display: flex;
-  place-items: center;
+  margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  font-family: 'Poppins-Medium', sans-serif;
 }
 
 h1 {
@@ -50,23 +65,7 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }
