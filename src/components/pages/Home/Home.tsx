@@ -1,10 +1,11 @@
-function Home() {
+import { ContentProps } from "../../../types/component.types.ts";
+import React from "react";
+
+const Home: React.FC<ContentProps> = ({Header}) => {
 
     return (
         <>
-            <div className="text-3xl font-bold underline">
-                Home
-            </div>
+            <Header />
         </>
     )
 }

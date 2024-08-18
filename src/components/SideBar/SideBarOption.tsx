@@ -6,7 +6,7 @@ const SideBarOption: React.FC<SideBarOptionProps> = ({option}) => {
 
     return (
         <>
-            <div className="text-3xl font-bold underline">
+            <div className="text-2xl font-poppins-light cursor-pointer overflow-hidden">
                 {option}
             </div>
         </>

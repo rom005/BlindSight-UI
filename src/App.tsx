@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {useState} from "react";
+import UploadImage from "./components/pages/UploadImage/UploadImage.tsx";
+import SideBar from "./components/SideBar/SideBar.tsx";
+import Home from "./components/pages/Home/Home.tsx";
+import { Option } from "./types/component.types.ts";
+import { projectTitle } from "./config/metadata.config.ts";
+import HeaderComponent from "./components/pages/HeaderComponent.tsx";
 
 function App() {
-  const [count, setCount] = useState(0)
+    const changePage = (pageName: string) => {
+        const page = pages.find(p => p.name === pageName);
+        if (page) {
+            setCurrentPage(page);
+        }
+    };
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const pages: Option[] = [{
+        name: "Home",
+        content: Home
+    }, {
+        name: "New Image",
+        content: UploadImage
+    }];
+
+    const [currentPage, setCurrentPage] = useState(pages[0])
+
+    const CurrentComponent = currentPage.content;
+
+    return (
+        <div className="flex gap-4 mb-8 w-screen h-full bg-content">
+            <div className="w-1/4 h-full bg-side-bar"><SideBar title={projectTitle} options={pages.map(page => page.name)} setOption={changePage}/></div>
+            <div className="flex-1 m-20 text-center"><CurrentComponent Header={
+                () => <HeaderComponent text={currentPage.name}/>
+            }/></div>
+        </div>
+    )
 }
 
 export default App

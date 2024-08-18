@@ -1,20 +1,24 @@
 import SideBarOption from "./SideBarOption.tsx";
 
 interface SideBarProps {
+    title: string,
     options: string[],
     setOption: (option: string) => void
 }
 
-const SideBar: React.FC<SideBarProps> = ({options, setOption}) => {
+const SideBar: React.FC<SideBarProps> = ({title, options, setOption}) => {
 
     return (
         <>
-            <div className="text-3xl font-bold underline">
-                {options.map((option, index) => (
-                    <div onClick={() => setOption(option)} className="cursor-pointer">
-                        <SideBarOption option={option} key={index} />
-                    </div>
-                ))}
+            <div id="sidebar" className="flex flex-col m-3">
+                <div className="text-3xl m-8 cursor-default self-center">{title}</div>
+                <div className="content-start">
+                    {options.map((option, index) => (
+                        <div key={option} onClick={() => setOption(option)} className="m-6 p-1">
+                            <SideBarOption option={option} key={index}/>
+                        </div>
+                    ))}
+                </div>
             </div>
         </>
     )
