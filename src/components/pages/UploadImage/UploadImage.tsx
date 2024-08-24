@@ -31,6 +31,7 @@ const UploadImage: React.FC<ContentProps> = ({Header}) => {
     };
 
     const translateUploadedImage = () => {
+        if (!file) return
         setLoading(true);
         if (file) {
             sendImageForTranslation(file)
@@ -57,7 +58,7 @@ const UploadImage: React.FC<ContentProps> = ({Header}) => {
                     </div>
                     <div className="flex justify-around my-3">
                         <div className="text-black cursor-pointer" onClick={handleImageClick}>Upload</div>
-                        <div className="text-black cursor-pointer" onClick={translateUploadedImage}>Translate</div>
+                        <div className={`text-black ${file && "cursor-pointer"}`} onClick={translateUploadedImage}>Translate</div>
                     </div>
 
                     {
