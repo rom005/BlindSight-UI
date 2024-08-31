@@ -3,6 +3,9 @@ export default {
     content: ['./src/**/*.{html,js,jsx,tsx}'],
     theme: {
         extend: {
+            size: {
+                '128': '36rem',
+            },
             width: {
                 '128': '36rem',
             },
