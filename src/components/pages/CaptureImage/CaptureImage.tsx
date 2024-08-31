@@ -1,19 +1,29 @@
-import { ContentProps } from "../../../types/component.types.ts";
-import { useRef, useState } from "react";
-import { sendImageForTranslation } from "../../../api/controllers/braiileController.ts";
+import {ContentProps} from "../../../types/component.types.ts";
+import {useRef, useState} from "react";
+import {sendImageForTranslation} from "../../../api/controllers/braiileController.ts";
 import loadingLogo from '../../../assets/images/loadinglogo.gif';
+import {useSpeechSynthesis} from 'react-speech-kit';
 
-const CaptureImage: React.FC<ContentProps> = ({ Header }) => {
+const CaptureImage: React.FC<ContentProps> = ({Header}) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [capturedImage, setCapturedImage] = useState<string | null>(null);
     const [translation, setTranslation] = useState<string>();
     const [loading, setLoading] = useState(false);
+    const {speak, voices} = useSpeechSynthesis();
+
+    const handleSpeak = () => {
+        speak({
+            text: translation || "",
+            rate: 0.6,
+            voice: voices[2] ? voices[2] : null
+        });
+    };
 
     const startCamera = () => {
         setCapturedImage(null);
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: true })
+            navigator.mediaDevices.getUserMedia({video: true})
                 .then((stream) => {
                     if (videoRef.current) {
                         videoRef.current.srcObject = stream;
@@ -49,7 +59,7 @@ const CaptureImage: React.FC<ContentProps> = ({ Header }) => {
             fetch(capturedImage)
                 .then(res => res.blob())
                 .then(blob => {
-                    const file = new File([blob], "captured_image.png", { type: 'image/png' });
+                    const file = new File([blob], "captured_image.png", {type: 'image/png'});
                     return sendImageForTranslation(file);
                 })
                 .then((translation) => {
@@ -61,7 +71,7 @@ const CaptureImage: React.FC<ContentProps> = ({ Header }) => {
 
     return (
         <>
-            <Header />
+            <Header/>
             <div className="flex justify-center">
                 <div className="flex-col">
                     <canvas ref={canvasRef} className="hidden size-96" width={384} height={384}></canvas>
@@ -79,10 +89,11 @@ const CaptureImage: React.FC<ContentProps> = ({ Header }) => {
                     )}
 
 
-
                     <div className="flex justify-around my-3">
                         <div className="text-black cursor-pointer" onClick={captureImage}>Capture</div>
-                        <div className={`text-black ${capturedImage && "cursor-pointer"}`} onClick={translateCapturedImage}>Translate</div>
+                        <div className={`text-black ${capturedImage && "cursor-pointer"}`}
+                             onClick={translateCapturedImage}>Translate
+                        </div>
                     </div>
 
                     {
@@ -91,7 +102,13 @@ const CaptureImage: React.FC<ContentProps> = ({ Header }) => {
                                  alt="loading..."/>
                             :
                             <div className="text-black">
-                                {translation ? `"${translation}"` : ""}
+                                {translation ?
+                                    <div className="justify-center flex items-center">
+                                        {translation}
+                                        <img className="cursor-pointer size-5 overflow-auto ml-2"
+                                             src="/src/assets/images/soundIcon.png" alt="speek" onClick={handleSpeak}/>
+                                    </div>
+                                    : ""}
                             </div>
                     }
                 </div>
